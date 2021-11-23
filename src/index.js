@@ -1,16 +1,5 @@
-//index.js
-class Animal {
-	constructor(name) {
-		this.name = name;
-	}
-	getName() {
-		return this.name;
-	}
-}
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./app";
 
-const dog = new Animal("dog");
-
-const body = document.getElementsByTagName("body")[0];
-body.append("<div>123</div>");
-
-console.log(body);
+ReactDOM.render(<App />, document.getElementById("root"));

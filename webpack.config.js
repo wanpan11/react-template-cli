@@ -1,17 +1,41 @@
+const webpack = require("webpack");
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const isDev = process.env.NODE_ENV === "development";
-const config = require("./config")[isDev ? "dev" : "build"];
 
 module.exports = {
+	entry: "./src/index.js",
+	output: {
+		path: path.resolve(__dirname, "dist"), //必须是绝对路径
+		filename: "bundle.js",
+		publicPath: "/", //通常是CDN地址
+	},
 	// 运行模式
 	mode: isDev ? "development" : "production",
+	devtool: false,
 	// loader 规则
 	module: {
 		rules: [
 			{
-				test: /\.jsx?$/,
-				use: ["babel-loader"],
-				exclude: /node_modules/, //排除 node_modules 目录
+				test: /\.(c|le)ss$/, // 过滤样式文件
+				use: ["style-loader", "css-loader", "less-loader"],
+			},
+			{
+				test: /\.jsx?$/, // 配置js和jsx的loader
+				exclude: /(node_modules|bower_components)/,
+				loader: "babel-loader",
+				options: {
+					presets: [
+						// presets是babel插件的集合
+						"@babel/preset-env",
+						"@babel/preset-react",
+					],
+					plugins: [
+						// 支持类属性'='赋值插件
+						"@babel/plugin-proposal-class-properties",
+					],
+				},
 			},
 		],
 	},
@@ -19,20 +43,27 @@ module.exports = {
 	plugins: [
 		//数组 放着所有的webpack插件
 		new HtmlWebpackPlugin({
+			title: "webpack",
 			template: "./public/index.html",
 			filename: "index.html", //打包后的文件名
-			config: config.template,
 		}),
+		// devtool
+		new webpack.SourceMapDevToolPlugin({}),
+		new CleanWebpackPlugin(),
 	],
 	// webpack server
 	devServer: {
-		port: "4400", //默认是8080
-		quiet: false, //默认不启用
-		inline: true, //默认开启 inline 模式，如果设置为false,开启 iframe 模式
-		stats: "errors-only", //终端仅打印 error
-		overlay: false, //默认不启用
-		clientLogLevel: "silent", //日志等级
-		compress: true, //是否启用 gzip 压缩
+		static: {
+			directory: path.join(__dirname, "public"),
+		},
+		client: {
+			progress: true,
+		},
+		compress: true,
+		port: 7777,
 	},
-	devtool: "cheap-module-eval-source-map", //开发环境下使用
+	// 模块解析
+	resolve: {
+		extensions: [".jsx", "..."], // import 自动不全后缀
+	},
 };
