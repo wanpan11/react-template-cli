@@ -1,5 +1,8 @@
 import React from "react";
+import "./app.css";
 
-export default function App(params) {
-	return <div>123</div>;
+function App(params) {
+	return <div>宛攀玩哦按</div>;
 }
+
+export default App;
