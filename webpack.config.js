@@ -56,13 +56,19 @@ module.exports = {
         loader: "babel-loader",
         options: {
           presets: [
-            // presets是babel插件的集合
+            // 预设
             "@babel/preset-env",
+            ,
             "@babel/preset-react",
           ],
           plugins: [
-            // 支持类属性'='赋值插件
-            "@babel/plugin-proposal-class-properties",
+            // 插件
+            [
+              "@babel/plugin-transform-runtime",
+              {
+                corejs: 3, // 默认值false，使用2、3时，会抽离ESNEXT的api到沙箱环境
+              },
+            ],
           ],
         },
       },
