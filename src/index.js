@@ -1,5 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./app";
+const arr = [
+  new Promise(rev => {
+    rev(2);
+  }),
+  new Promise(rev => {
+    rev(2);
+  }),
+];
 
-ReactDOM.render(<App />, document.getElementById("root"));
+arr.map(el => {
+  el.then(feed => {
+    console.log(feed);
+  });
+});
