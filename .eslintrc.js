@@ -32,7 +32,7 @@ module.exports = {
     },
   },
   // 插件
-  plugins: ["react", "prettier"],
+  plugins: ["prettier"],
   // 检查规则
   rules: { "prettier/prettier": ["error", { arrowParens: "avoid" }] },
   // 过滤文件
