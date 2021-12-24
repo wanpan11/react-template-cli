@@ -6,44 +6,42 @@ const isDev = process.env.NODE_ENV === "development";
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
+  // 运行模式
   mode: isDev ? "development" : "production",
-  mode: "development",
   entry: "/index.js",
   devtool: false,
   output: {
     path: path.resolve(__dirname, "dist"), //必须是绝对路径
-    // filename: "[chunkhash].bundle.js",
-    filename: "bundle.js",
+    filename: "[chunkhash].bundle.js",
     clean: true,
     publicPath: "./", //通常是CDN地址
   },
-  // optimization: {
-  //   minimize: true,
-  //   emitOnErrors: true,
-  //   splitChunks: {
-  //     chunks: "all",
-  //     minSize: 20000,
-  //     minRemainingSize: 0,
-  //     minChunks: 1,
-  //     maxAsyncRequests: 30,
-  //     maxInitialRequests: 30,
-  //     enforceSizeThreshold: 50000,
-  //     cacheGroups: {
-  //       defaultVendors: {
-  //         test: /[\\/]node_modules[\\/]/,
-  //         priority: -10,
-  //         reuseExistingChunk: true,
-  //         filename: "[name].vendor.js",
-  //       },
-  //       default: {
-  //         minChunks: 2,
-  //         priority: -20,
-  //         reuseExistingChunk: true,
-  //       },
-  //     },
-  //   },
-  // },
-  // 运行模式
+  optimization: {
+    minimize: true,
+    emitOnErrors: true,
+    splitChunks: {
+      chunks: "all",
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          filename: "[name].vendor.js",
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   // loader 规则
   module: {
     rules: [
@@ -52,19 +50,20 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.jsx?$/, // 配置js和jsx的loader
+        test: /.js/, // 配置js和jsx的loader
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
-          // babel 编译 预设 插件
-          presets: ["@babel/preset-env", "@babel/preset-react"],
-          plugins: [
+          presets: [
             [
-              "@babel/plugin-transform-runtime",
+              "@babel/preset-env",
               {
-                corejs: 3, // 默认值false，使用2、3时，会抽离ESNEXT的api到沙箱环境
+                targets: "> 0.25%, not dead",
+                useBuiltIns: "usage",
+                corejs: "3",
               },
             ],
+            "@babel/preset-react",
           ],
         },
       },

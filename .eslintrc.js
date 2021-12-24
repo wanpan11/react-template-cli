@@ -7,6 +7,10 @@ module.exports = {
     es2021: true,
     commonjs: true,
   },
+  globals: {
+    process: "writable",
+    __dirname: "readonly",
+  },
   // 继承插件特性
   extends: ["eslint:recommended", "plugin:react/recommended"],
   // 解析选项
@@ -32,9 +36,9 @@ module.exports = {
     },
   },
   // 插件
-  plugins: ["prettier"],
+  plugins: ["react", "prettier"],
   // 检查规则
   rules: { "prettier/prettier": ["error", { arrowParens: "avoid" }] },
   // 过滤文件
-  ignorePatterns: ["*.config.js", "dist", "node_modules", "pnpm-lock"],
+  ignorePatterns: ["dist", "node_modules", "pnpm-lock"],
 };
