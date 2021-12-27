@@ -12,7 +12,11 @@ module.exports = {
     __dirname: "readonly",
   },
   // 继承插件特性
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+  ],
   // 解析选项
   parserOptions: {
     ecmaFeatures: {
@@ -36,7 +40,7 @@ module.exports = {
     },
   },
   // 插件
-  plugins: ["react", "prettier"],
+  plugins: ["prettier"],
   // 检查规则
   rules: { "prettier/prettier": ["error", { arrowParens: "avoid" }] },
   // 过滤文件

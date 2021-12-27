@@ -5,16 +5,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isDev = process.env.NODE_ENV === "development";
 
 module.exports = {
-  context: path.resolve(__dirname, "src"),
+  context: path.resolve(__dirname, "./src"),
   // 运行模式
   mode: isDev ? "development" : "production",
-  entry: "/index.js",
+  entry: "./main.js",
   devtool: false,
   output: {
-    path: path.resolve(__dirname, "dist"), //必须是绝对路径
+    path: path.resolve(__dirname, "./dist"), //必须是绝对路径
     filename: "[chunkhash].bundle.js",
     clean: true,
-    publicPath: "./", //通常是CDN地址
+    publicPath: "/", //通常是CDN地址
   },
   optimization: {
     minimize: true,
@@ -63,7 +63,12 @@ module.exports = {
                 corejs: "3",
               },
             ],
-            "@babel/preset-react",
+            [
+              "@babel/preset-react",
+              {
+                runtime: "automatic",
+              },
+            ],
           ],
         },
       },
@@ -72,10 +77,9 @@ module.exports = {
   // 插件配置
   plugins: [
     new webpack.ProgressPlugin(),
-    //数组 放着所有的webpack插件
     new HtmlWebpackPlugin({
-      title: "webpack",
-      template: "../public/index.html",
+      title: "ts_test",
+      template: path.resolve(__dirname, "./public/index.html"),
       filename: "index.html", //打包后的文件名
     }),
     // css 分离
@@ -85,14 +89,10 @@ module.exports = {
   ],
   // webpack server
   devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
     client: {
       progress: true,
     },
-    compress: true,
-    port: 7777,
+    port: 9999,
   },
   // 模块解析
   resolve: {
