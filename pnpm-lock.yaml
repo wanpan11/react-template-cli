@@ -6,7 +6,6 @@ specifiers:
   '@babel/preset-react': ^7.16.0
   babel-loader: ^8.2.3
   core-js: ^3.20.1
-  cross-env: ^7.0.3
   css-loader: ^6.5.1
   eslint: ^8.4.1
   eslint-plugin-prettier: ^4.0.0
@@ -35,7 +34,6 @@ devDependencies:
   '@babel/preset-env': 7.16.5_@babel+core@7.16.5
   '@babel/preset-react': 7.16.5_@babel+core@7.16.5
   babel-loader: 8.2.3_26251eab09162b25a254715ee98d7c5c
-  cross-env: 7.0.3
   css-loader: 6.5.1_webpack@5.65.0
   eslint: 8.4.1
   eslint-plugin-prettier: 4.0.0_eslint@8.4.1+prettier@2.5.1
@@ -2001,14 +1999,6 @@ packages:
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
-    dev: true
-
-  /cross-env/7.0.3:
-    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
-    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn/7.0.3:
