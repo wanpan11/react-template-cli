@@ -10,14 +10,13 @@ const baseConfig = {
     path: path.resolve(__dirname, "./dist"), //必须是绝对路径
     filename: "[chunkhash].bundle.js",
     clean: true,
-    publicPath: "/", //通常是CDN地址
   },
   // loader 规则
   module: {
     rules: [
       {
         test: /\.(c|le)ss$/, // 过滤样式文件
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
       {
         test: /.js/, // 配置js和jsx的loader
@@ -59,8 +58,9 @@ module.exports = (env, argv) => {
       filename: "index.html", //打包后的文件名
     }),
     // css 分离
-    new MiniCssExtractPlugin(),
-    // devtool
+    new MiniCssExtractPlugin({
+      filename: "[chunkhash]_[name].css",
+    }),
   ];
   const optimization = {
     minimize: true,

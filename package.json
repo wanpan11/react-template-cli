@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "start": "webpack serve --mode=development",
-    "build": "webpack serve --mode=production"
+    "build": "webpack --mode=production"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
