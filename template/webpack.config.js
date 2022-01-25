@@ -16,7 +16,16 @@ const baseConfig = {
     rules: [
       {
         test: /\.(c|le)ss$/, // 过滤样式文件
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+            },
+          },
+          "less-loader",
+        ],
       },
       {
         test: /.js/, // 配置js和jsx的loader
@@ -41,6 +50,17 @@ const baseConfig = {
           ],
         },
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
     ],
   },
   // 模块解析
@@ -53,7 +73,7 @@ module.exports = (env, argv) => {
   const plugins = [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-      title: "ts_test",
+      title: "react",
       template: path.resolve(__dirname, "./public/index.html"),
       filename: "index.html", //打包后的文件名
     }),

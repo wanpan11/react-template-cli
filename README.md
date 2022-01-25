@@ -1,6 +1,10 @@
-# project_common_config
+## wanp-cli
 
-react 项目打包、babel 编译、eslint 通用配置
+---
+
+react 模板项目
+
+- 打包、babel 编译、eslint 通用配置
 
 ## 分支
 
