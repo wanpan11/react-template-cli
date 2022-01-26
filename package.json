@@ -1,12 +1,12 @@
 {
-  "name": "rt-cli",
+  "name": "wp-react-template-cli",
   "version": "1.0.0",
   "description": "react项目模板",
   "keywords": [
     "react",
     "react-template"
   ],
-  "author": "wanp",
+  "author": "wanp11",
   "license": "ISC",
   "main": "index.js",
   "bin": {
