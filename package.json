@@ -1,5 +1,5 @@
 {
-  "name": "wp-cli",
+  "name": "react-template-cli",
   "version": "1.0.0",
   "description": "react项目模板",
   "keywords": [
@@ -10,11 +10,11 @@
   "license": "ISC",
   "main": "index.js",
   "bin": {
-    "wp": "./index.js"
+    "rt": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/axios/axios.git"
+    "url": "https://github.com/wanpan11/react-template-cli.git"
   },
   "scripts": {},
   "devDependencies": {
