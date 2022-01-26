@@ -1,21 +1,23 @@
 {
-  "name": "wanp-project",
+  "name": "wp-cli",
   "version": "1.0.0",
   "description": "react项目模板",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react",
+    "react-template"
+  ],
+  "author": "wanp",
   "license": "ISC",
   "main": "index.js",
   "bin": {
-    "wanp": "./index.js"
+    "wp": "./index.js"
   },
-  "scripts": {
-    "start": "webpack serve --mode=development",
-    "build": "webpack --mode=production"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axios/axios.git"
   },
+  "scripts": {},
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
     "eslint": "^8.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
@@ -23,8 +25,8 @@
   },
   "dependencies": {
     "commander": "^8.3.0",
-    "core-js": "^3.20.1",
     "fs-extra": "^10.0.0",
-    "inquirer": "^8.2.0"
+    "inquirer": "^8.2.0",
+    "ora": "^1.2.0"
   }
 }

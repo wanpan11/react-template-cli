@@ -9,12 +9,14 @@ program
   .command("init [project-name]")
   .description("创建 react 项目模板")
   .action(() => {
-    const prompt = {
-      type: "input",
-      message: "请输入项目名称",
-      name: "projectName",
-      default: "react-app",
-    };
+    const prompt = [
+      {
+        type: "input",
+        message: "请输入项目名称",
+        name: "projectName",
+        default: "react-app",
+      },
+    ];
 
     inquirer.prompt(prompt).then(answers => {
       getTemplate(answers);
