@@ -17,16 +17,7 @@ const baseConfig = {
     rules: [
       {
         test: /\.(c|le)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-            },
-          },
-          "less-loader",
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
       {
         test: /.j(sx|s)/, // 配置js和jsx的loader

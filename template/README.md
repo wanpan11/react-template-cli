@@ -15,4 +15,4 @@
 > 注意
 
 - 支持 less
-- 默认启用 css modules
+- 开启 css modules 模式文件格式：flieName.module.less
