@@ -8,6 +8,10 @@
 - pnpm start
 - pnpm build
 
+> 打包配置
+
+- webpack.config.js
+
 > 注意
 
 - 支持 less

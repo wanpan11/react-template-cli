@@ -5,17 +5,18 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const baseConfig = {
   context: path.resolve(__dirname, "./src"),
-  entry: "./main.js",
+  entry: "./main.jsx",
   output: {
     path: path.resolve(__dirname, "./dist"), //必须是绝对路径
     filename: "[chunkhash].bundle.js",
     clean: true,
   },
+  devtool: false,
   // loader 规则
   module: {
     rules: [
       {
-        test: /\.(c|le)ss$/, // 过滤样式文件
+        test: /\.(c|le)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -28,7 +29,7 @@ const baseConfig = {
         ],
       },
       {
-        test: /.js/, // 配置js和jsx的loader
+        test: /.j(sx|s)/, // 配置js和jsx的loader
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
@@ -65,68 +66,62 @@ const baseConfig = {
   },
   // 模块解析
   resolve: {
-    extensions: [".jsx", "..."], // import 自动不全后缀
+    extensions: [".jsx", "..."], // 自动不全文件后缀
   },
-};
-
-module.exports = (env, argv) => {
-  const plugins = [
+  plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       title: "react",
       template: path.resolve(__dirname, "./public/index.html"),
-      filename: "index.html", //打包后的文件名
+      filename: "index.html",
     }),
     // css 分离
     new MiniCssExtractPlugin({
       filename: "[chunkhash]_[name].css",
     }),
-  ];
-  const optimization = {
-    minimize: true,
-    emitOnErrors: true,
-    splitChunks: {
-      chunks: "all",
-      minSize: 20000,
-      minRemainingSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          reuseExistingChunk: true,
-          filename: "[name].vendor.js",
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-      },
-    },
-  };
-  const devServer = {
-    client: {
-      logging: "error",
-      progress: true,
-      overlay: true,
-    },
-    open: true,
-    port: 9999,
-  };
+  ],
+};
 
+module.exports = (env, argv) => {
   if (argv.mode === "development") {
-    plugins.push(new webpack.SourceMapDevToolPlugin({}));
-    baseConfig.devtool = false;
-    baseConfig.plugins = plugins;
+    const devServer = {
+      client: {
+        logging: "error",
+        progress: true,
+        overlay: true,
+      },
+      open: true,
+      port: 9999,
+    };
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({}));
     baseConfig.devServer = devServer;
   }
 
   if (argv.mode === "production") {
-    baseConfig.plugins = plugins;
+    const optimization = {
+      minimize: true,
+      splitChunks: {
+        chunks: "all",
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+            filename: "[contenthash].vendor.js",
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          react: {
+            name: "ReactAbout",
+            test: /.jsx/,
+            priority: 1,
+          },
+        },
+      },
+    };
     baseConfig.optimization = optimization;
   }
 
