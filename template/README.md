@@ -11,6 +11,7 @@
 > 打包配置
 
 - webpack.config.js
+- 代理 devServer.proxy (基于 http-proxy-middleware)
 
 > 注意
 
