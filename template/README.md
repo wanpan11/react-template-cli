@@ -16,4 +16,4 @@
 > 注意
 
 - 支持 less
-- 开启 css modules 模式文件格式：flieName.module.less
+- 开启 css modules 模式文件格式：xxxx.module.less
