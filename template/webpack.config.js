@@ -57,6 +57,9 @@ const baseConfig = {
   },
   // 模块解析
   resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
     extensions: [".jsx", "..."], // 自动不全文件后缀
   },
   plugins: [

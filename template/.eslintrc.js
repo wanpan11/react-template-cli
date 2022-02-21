@@ -41,9 +41,12 @@ module.exports = {
     },
   },
   // 插件
-  plugins: ["prettier"],
+  plugins: ["prettier", "react"],
   // 检查规则
-  rules: { "prettier/prettier": ["error", { arrowParens: "avoid" }] },
+  rules: {
+    "prettier/prettier": ["error", { arrowParens: "avoid" }],
+    "react/prop-types": 0,
+  },
   // 过滤文件
   ignorePatterns: ["dist", "node_modules", "pnpm-lock"],
 };
