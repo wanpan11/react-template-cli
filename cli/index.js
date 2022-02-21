@@ -1,8 +1,9 @@
 const program = require("commander");
 const inquirer = require("inquirer");
+const info = require("../package.json");
 const { getTemplate } = require("./getTemplate");
 
-program.version("1.0.0", "-v, --version");
+program.version(info.version, "-v, --version");
 program.description("react 项目初始化工具");
 
 program
