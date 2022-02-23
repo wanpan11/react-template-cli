@@ -79,6 +79,7 @@ const baseConfig = {
 module.exports = (env, argv) => {
   if (argv.mode === "development") {
     const devServer = {
+      historyApiFallback: true,
       client: {
         logging: "error",
         progress: true,

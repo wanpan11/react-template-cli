@@ -44,7 +44,10 @@ module.exports = {
   plugins: ["prettier", "react"],
   // 检查规则
   rules: {
-    "prettier/prettier": ["error", { arrowParens: "avoid" }],
+    "prettier/prettier": [
+      "error",
+      { arrowParens: "avoid", singleQuote: false },
+    ],
     "react/prop-types": 0,
   },
   // 过滤文件
