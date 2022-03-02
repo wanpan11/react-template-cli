@@ -7,7 +7,7 @@ const routers = [
     path: "*",
     component: getLazyLoad("pages"),
     childrenList: [
-      { path: "/", static: true, component: getLazyLoad("pages/welcome") },
+      { path: "*", static: true, component: getLazyLoad("pages/welcome") },
       { path: "/list", static: true, component: getLazyLoad("pages/list") },
     ],
   },

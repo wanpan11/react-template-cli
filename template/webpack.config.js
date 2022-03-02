@@ -40,6 +40,7 @@ const baseConfig = {
               },
             ],
           ],
+          plugins: ["@babel/plugin-transform-runtime"],
         },
       },
       {
@@ -73,6 +74,7 @@ const baseConfig = {
     new MiniCssExtractPlugin({
       filename: "[chunkhash]_[name].css",
     }),
+    new webpack.SourceMapDevToolPlugin({}),
   ],
 };
 
@@ -96,7 +98,6 @@ module.exports = (env, argv) => {
       open: true,
       port: 9999,
     };
-    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({}));
     baseConfig.devServer = devServer;
   }
 
