@@ -1,13 +1,11 @@
-## react-template-cli
+## react-tp-cli
+
+- react 项目脚手架 基于 webpack
+- 内置动态路由
+- 可自由配置打包项
+
 ---
 
-> 目录
-- cli 源码
-- template 模板
+### 使用
 
-> 本地调式
-- npm link
-- rt init 
-
-
-
+- rt init [appName]
