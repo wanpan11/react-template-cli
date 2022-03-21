@@ -17,6 +17,13 @@ program
         name: "projectName",
         default: "react-app",
       },
+      {
+        type: "list",
+        message: "请选择模板类型：",
+        name: "type",
+        default: "react",
+        choices: ["react", "react-ts"],
+      },
     ];
 
     inquirer.prompt(prompt).then(answers => {
