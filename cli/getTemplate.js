@@ -3,13 +3,13 @@ const fs = require("fs-extra");
 const path = require("path");
 const ora = require("ora");
 
-function getTemplate({ projectName }) {
+function getTemplate({ projectName, type }) {
   const spinner = ora("模板创建中");
   spinner.color = "yellow";
   spinner.start();
 
   try {
-    const sourceDir = path.resolve(__dirname, `../template`);
+    const sourceDir = path.resolve(__dirname, `../template/${type}`);
     const projectDir = path.resolve(process.cwd(), `./${projectName}`);
 
     fs.copy(sourceDir, projectDir, () => {
@@ -21,7 +21,7 @@ function getTemplate({ projectName }) {
         `${projectDir}/package.json`,
         JSON.stringify(packageObj, "", "\t")
       );
-      console.log("模板创建完成");
+      console.log("\033[32m 模板创建完成 \033[0m");
     });
   } catch (error) {
     spinner.stop();
