@@ -1,6 +1,7 @@
 module.exports = {
   // 以此文件为准 不往上查找 eslint 配置文件
   root: true,
+  parser: "@typescript-eslint/parser",
   // 环境
   env: {
     browser: true,
@@ -41,7 +42,7 @@ module.exports = {
     },
   },
   // 插件
-  plugins: ["prettier", "react"],
+  plugins: ["prettier", "react", "@typescript-eslint"],
   // 检查规则
   rules: {
     "prettier/prettier": [
