@@ -8,7 +8,8 @@ const baseConfig = {
   entry: "./main.jsx",
   output: {
     path: path.resolve(__dirname, "./dist"), //必须是绝对路径
-    filename: "[chunkhash].bundle.js",
+    filename: "[name]_[contenthash].js",
+    chunkFilename: "js/[name]_[contenthash].js",
     clean: true,
   },
   devtool: false,

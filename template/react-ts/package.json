@@ -8,7 +8,8 @@
   "license": "ISC",
   "scripts": {
     "start": "webpack serve --mode=development",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "dev:build": "webpack --mode=development"
   },
   "devDependencies": {
     "@types/react": "^17.0.38",
