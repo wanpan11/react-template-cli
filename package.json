@@ -1,0 +1,41 @@
+{
+  "name": "react-tp-cli",
+  "version": "1.2.1",
+  "description": "react项目模板",
+  "keywords": [
+    "react",
+    "react-template"
+  ],
+  "author": "wanp11",
+  "license": "ISC",
+  "main": "index.js",
+  "bin": {
+    "rt": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wanpan11/react-template-cli.git"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,ts,tsx ./"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "react": "^17.0.2",
+    "typescript": "^4.5.4",
+    "eslint": "^8.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.2.0",
+    "ora": "^1.2.0"
+  }
+}
