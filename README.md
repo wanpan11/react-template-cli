@@ -1,5 +1,7 @@
 ## react-tp-cli
 
+![CI](https://github.com/Hitotsubashi/cicd-study/actions/workflows/ci.yml/badge.svg)
+
 - react 项目脚手架 基于 webpack5
 - 内置动态路由
 - 可自由配置打包项
