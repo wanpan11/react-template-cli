@@ -18,6 +18,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   // 解析选项
   parserOptions: {
@@ -52,5 +53,5 @@ module.exports = {
     "react/prop-types": 0,
   },
   // 过滤文件
-  ignorePatterns: ["dist", "node_modules", "pnpm-lock"],
+  ignorePatterns: ["dist", "node_modules", "pnpm-lock", "webpack.config.js"],
 };
