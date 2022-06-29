@@ -31,7 +31,9 @@ jobs:
           node-version: "14.x"
 
       # 安装依赖
+      - name: Install des
       - run: npm install
 
       # 运行 eslint
+      - name: Run eslint、
       - run: npm init
