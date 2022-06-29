@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-const usePriceCount: (
-  arr: number[]
-) => [number, boolean, (arr: number[]) => void] = arr => {
+interface UsePriceCount {
+  (arr: number[]): [number, boolean, (arr: number[]) => void];
+}
+
+const usePriceCount: UsePriceCount = arr => {
   /*  */
   const [priceArr, priceArrHandle] = useState(arr);
   const [status, statusHandle] = useState(false);
