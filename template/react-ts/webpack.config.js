@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const baseConfig = {
   context: path.resolve(__dirname, "./src"),
-  entry: "./main.tsx",
+  entry: "./main.jsx",
   output: {
     path: path.resolve(__dirname, "./dist"), //必须是绝对路径
     filename: "[name]_[contenthash].js",
@@ -21,7 +21,7 @@ const baseConfig = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
       {
-        test: /.tsx/, // 配置js和jsx的loader
+        test: /\.(t|j)sx?$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
@@ -40,7 +40,7 @@ const baseConfig = {
                 runtime: "automatic",
               },
             ],
-            "@babel/preset-typescript",
+            ["@babel/preset-typescript", { isTSX: true, allExtensions: true }],
           ],
           plugins: ["@babel/plugin-transform-runtime"],
         },
@@ -63,7 +63,7 @@ const baseConfig = {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    extensions: [".jsx", ".tsx", "..."], // 自动不全文件后缀
+    extensions: [".ts", ".jsx", ".tsx", "..."], // 自动不全文件后缀
   },
   plugins: [
     new webpack.ProgressPlugin(),
