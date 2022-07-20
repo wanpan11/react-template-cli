@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import styles from "./index.module.less";
 import img from "../../assets/img/logo.jpg";
 
-const Welcome = () => {
+const Welcome = ({ title }) => {
   const promise = async () => {
-    return 1;
+    return "Welcome";
   };
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const Welcome = () => {
   return (
     <div className={styles.content_box}>
       <h1>start you react app</h1>
+      <h1> {title} </h1>
 
       <div className={styles.img_box}>
         <img src={img} alt="logo" className={styles.img} />

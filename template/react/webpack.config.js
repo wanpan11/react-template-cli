@@ -11,6 +11,7 @@ const baseConfig = {
     filename: "[name]_[contenthash].js",
     chunkFilename: "js/[name]_[contenthash].js",
     clean: true,
+    publicPath: "/",
   },
   devtool: false,
   // loader 规则
