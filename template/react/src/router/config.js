@@ -14,10 +14,14 @@ const getLazyLoad = url => lazy(() => import(`@/${url}/index`));
 const routers = [
   {
     path: "*",
-    title: "顶级路由",
+    title: "",
     component: getLazyLoad("pages"),
     childrenList: [
-      { path: "*", title: "默认首页", component: getLazyLoad("pages/welcome") },
+      {
+        path: "*",
+        title: "首页",
+        component: getLazyLoad("pages/welcome"),
+      },
       {
         path: "list",
         title: "列表页",

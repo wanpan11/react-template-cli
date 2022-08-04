@@ -6,7 +6,7 @@ function List({ children, title }) {
 
   return (
     <div className={styles.title}>
-      <h1>thsi List page</h1>
+      <h1>this List page</h1>
 
       <h1>{title}</h1>
 
@@ -18,7 +18,7 @@ function List({ children, title }) {
         </button>
       ) : (
         <button>
-          <Link to="/list/detail">list page</Link>
+          <Link to="/list/detail">detail page</Link>
         </button>
       )}
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import routersObj from "./config";
 
@@ -6,7 +6,7 @@ const Loading = () => {
   return <div>loading...</div>;
 };
 
-const getRoRouteuters = routers => {
+const getRoutes = routers => {
   return routers.map(e => {
     const { path = "", component: Component, childrenList = [], title } = e;
 
@@ -14,16 +14,16 @@ const getRoRouteuters = routers => {
       <Route
         path={path}
         element={
-          <React.Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading />}>
             <Component title={title}>
               {/* Outlet 用作子路由页面出口 */}
               {childrenList.length ? <Outlet /> : null}
             </Component>
-          </React.Suspense>
+          </Suspense>
         }
         key={title}
       >
-        {childrenList.length ? getRoRouteuters(childrenList) : ""}
+        {childrenList.length ? getRoutes(childrenList) : ""}
       </Route>
     );
 
@@ -34,7 +34,7 @@ const getRoRouteuters = routers => {
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>{getRoRouteuters(routersObj)}</Routes>
+      <Routes>{getRoutes(routersObj)}</Routes>
     </BrowserRouter>
   );
 };

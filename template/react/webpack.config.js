@@ -98,7 +98,7 @@ module.exports = (env, argv) => {
       //   },
       // },
       open: true,
-      port: 9999,
+      port: 2001,
     };
     baseConfig.devServer = devServer;
   }
