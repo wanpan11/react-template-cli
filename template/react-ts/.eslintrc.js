@@ -15,10 +15,9 @@ module.exports = {
   // 继承插件特性
   extends: [
     "eslint:recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   // 解析选项
   parserOptions: {

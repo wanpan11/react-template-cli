@@ -1,6 +1,6 @@
 import React from "react";
 
-const Content = ({ children }) => {
+const Content = ({ children }: PageProps) => {
   return <div>{children}</div>;
 };
 
