@@ -4,10 +4,11 @@ const info = require("../package.json");
 const { getTemplate } = require("./getTemplate");
 
 program.version(info.version, "-v, --version");
-program.description("react 项目初始化工具");
+program.description("react 项目模板初始化工具");
 
 program
-  .command("init [project-name]")
+  .command("init")
+  .usage(" ")
   .description("创建 react 项目模板")
   .action(() => {
     const prompt = [
