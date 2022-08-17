@@ -7,6 +7,7 @@ program.version(info.version, "-v, --version");
 program.description("react 项目模板初始化工具");
 
 program
+  .usage("<command>")
   .command("init")
   .usage(" ")
   .description("创建 react 项目模板")
