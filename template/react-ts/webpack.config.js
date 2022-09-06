@@ -2,6 +2,8 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const baseConfig = {
   context: path.resolve(__dirname, "./src"),
@@ -84,6 +86,7 @@ module.exports = (env, argv) => {
   if (argv.mode === "development") {
     const devServer = {
       historyApiFallback: true,
+      compress: true,
       client: {
         logging: "error",
         progress: true,
@@ -101,6 +104,7 @@ module.exports = (env, argv) => {
       port: 2000,
     };
     baseConfig.devServer = devServer;
+    baseConfig.plugins.push(new webpack.ProgressPlugin());
   }
 
   if (argv.mode === "production") {
@@ -129,6 +133,7 @@ module.exports = (env, argv) => {
       },
     };
     baseConfig.optimization = optimization;
+    baseConfig.plugins.push(new BundleAnalyzerPlugin());
   }
 
   console.log(`运行环境 ${argv.mode}`);
