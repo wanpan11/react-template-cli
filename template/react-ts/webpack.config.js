@@ -13,6 +13,7 @@ const baseConfig = {
     filename: "[name]_[contenthash].js",
     chunkFilename: "js/[name]_[contenthash].js",
     clean: true,
+    publicPath: "./",
   },
   devtool: false,
   // loader 规则
@@ -78,7 +79,6 @@ const baseConfig = {
     new MiniCssExtractPlugin({
       filename: "[chunkhash]_[name].css",
     }),
-    new webpack.SourceMapDevToolPlugin({}),
   ],
 };
 
@@ -103,9 +103,9 @@ module.exports = (env, argv) => {
       open: true,
       port: 2000,
     };
-    baseConfig.stats = "errors-only";
     baseConfig.devServer = devServer;
-    baseConfig.plugins.push(new webpack.ProgressPlugin());
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({}));
+
   }
 
   if (argv.mode === "production") {
@@ -134,7 +134,9 @@ module.exports = (env, argv) => {
       },
     };
     baseConfig.optimization = optimization;
-    baseConfig.plugins.push(new BundleAnalyzerPlugin());
+    baseConfig.plugins.push(
+      new BundleAnalyzerPlugin({ analyzerMode: "static" })
+    );
   }
 
   console.log(`运行环境 ${argv.mode}`);
