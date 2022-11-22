@@ -1,4 +1,4 @@
-import BreadCrumb from "../../components/BreadCrumb";
+import BreadCrumb from "../components/BreadCrumb";
 import routers from "../router/config";
 
 const Content = ({ children }) => {

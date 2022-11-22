@@ -1,3 +1,5 @@
+// import type { ReactNode } from "react";
+
 declare module "*.module.scss" {
   const classes: { [key: string]: string };
   export default classes;
@@ -13,15 +15,16 @@ declare module "*.jpg" {
   export default classes;
 }
 
-type Route = {
+interface Route {
   path: string;
   title: string;
   component: any;
   childrenList?: Route[];
-};
+}
+
 type Routers = Route[];
 
-type PageProps = {
+interface PageProps {
   children: ReactNode;
   title: string;
-};
+}

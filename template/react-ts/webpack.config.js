@@ -7,13 +7,12 @@ const BundleAnalyzerPlugin =
 
 const baseConfig = {
   context: path.resolve(__dirname, "./src"),
-  entry: "./main.jsx",
+  entry: "./main.tsx",
   output: {
     path: path.resolve(__dirname, "./dist"), //必须是绝对路径
     filename: "[name]_[contenthash].js",
     chunkFilename: "js/[name]_[contenthash].js",
     clean: true,
-    publicPath: "./",
   },
   devtool: false,
   // loader 规则
