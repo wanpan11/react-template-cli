@@ -1,3 +1,4 @@
+require("../env/env.js");
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -5,14 +6,18 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
+const dirRoot = path.resolve(__dirname, "../");
+
 const baseConfig = {
-  context: path.resolve(__dirname, "./src"),
+  context: path.resolve(dirRoot, "./src"),
   entry: "./main.tsx",
   output: {
-    path: path.resolve(__dirname, "./dist"), //必须是绝对路径
+    path: path.resolve(dirRoot, "./dist"), //必须是绝对路径
     filename: "[name]_[contenthash].js",
     chunkFilename: "js/[name]_[contenthash].js",
     clean: true,
+    publicPath: "/",
+    assetModuleFilename: "images/[hash][ext][query]",
   },
   devtool: false,
   // loader 规则
@@ -48,22 +53,20 @@ const baseConfig = {
         },
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-            },
+        test: /\.(jpe?g|png|svg|gif)/i,
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 限制于 8kb
           },
-        ],
+        },
       },
     ],
   },
   // 模块解析
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(dirRoot, "./src"),
     },
     extensions: [".ts", ".jsx", ".tsx", "..."], // 自动不全文件后缀
   },
@@ -71,12 +74,15 @@ const baseConfig = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       title: "react",
-      template: path.resolve(__dirname, "./public/index.html"),
+      template: path.resolve(dirRoot, "./public/index.html"),
       filename: "index.html",
     }),
     // css 分离
     new MiniCssExtractPlugin({
-      filename: "[chunkhash]_[name].css",
+      filename: "styles/[name].css",
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
     }),
   ],
 };
@@ -102,13 +108,14 @@ module.exports = (env, argv) => {
       open: true,
       port: 2000,
     };
+    baseConfig.cache = { type: "filesystem" };
     baseConfig.devServer = devServer;
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({}));
-
   }
 
   if (argv.mode === "production") {
     const optimization = {
+      usedExports: true,
       minimize: true,
       splitChunks: {
         chunks: "all",

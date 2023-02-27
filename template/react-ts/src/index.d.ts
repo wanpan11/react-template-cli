@@ -18,7 +18,8 @@ declare module "*.jpg" {
 interface Route {
   path: string;
   title: string;
-  component: any;
+  index?: true;
+  component: React.LazyExoticComponent;
   childrenList?: Route[];
 }
 
