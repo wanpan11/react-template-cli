@@ -17,12 +17,15 @@
     "url": "https://github.com/wanpan11/react-template-cli.git"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx,ts,tsx ./"
+    "lint": "eslint --ext .js,.jsx,ts,tsx ./",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
     "prettier": "2.7.1"
   },
   "dependencies": {
@@ -30,5 +33,13 @@
     "fs-extra": "^10.0.0",
     "inquirer": "^8.2.0",
     "ora": "^1.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint  --fix"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   }
 }
