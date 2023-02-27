@@ -8,26 +8,35 @@ const Loading = () => {
 
 const getRoutes = routers => {
   return routers.map(e => {
-    const { path = "", component: Component, childrenList = [], title } = e;
+    const {
+      path = "",
+      index,
+      component: Component,
+      childrenList = [],
+      title,
+    } = e;
 
-    const arr = (
-      <Route
-        path={path}
-        element={
-          <Suspense fallback={<Loading />}>
-            <Component title={title}>
-              {/* Outlet 用作子路由页面出口 */}
-              {childrenList.length ? <Outlet /> : null}
-            </Component>
-          </Suspense>
-        }
-        key={title}
-      >
-        {childrenList.length ? getRoutes(childrenList) : ""}
+    const props = {
+      key: title,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <Component title={title}>
+            {/* Outlet 用作子路由页面出口 */}
+            {childrenList.length ? <Outlet /> : null}
+          </Component>
+        </Suspense>
+      ),
+    };
+
+    const jsx = index ? (
+      <Route {...props} index></Route>
+    ) : (
+      <Route {...props} path={path}>
+        {childrenList.length ? getRoutes(childrenList) : undefined}
       </Route>
     );
 
-    return arr;
+    return jsx;
   });
 };
 

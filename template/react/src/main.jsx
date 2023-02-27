@@ -9,3 +9,5 @@ ReactDOM.render(
   </StrictMode>,
   document.getElementById("root")
 );
+
+console.log("process.env.APP_NAME ===> ", process.env.APP_NAME);

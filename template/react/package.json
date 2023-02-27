@@ -7,9 +7,9 @@
   "license": "ISC",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack serve --mode=development",
-    "build": "webpack --mode=production",
-    "dev:build": "webpack --mode=development"
+    "start": "cross-env NODE_ENV=development webpack serve --config ./scripts/webpack.config.js --mode=development",
+    "build": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.config.js --mode=production",
+    "dev:build": "cross-env NODE_ENV=development webpack --config ./scripts/webpack.config.js --mode=development"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -18,7 +18,9 @@
     "@babel/preset-react": "^7.16.0",
     "@types/express": "^4.17.13",
     "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
+    "dotenv": "^16.0.3",
     "eslint": "^8.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
