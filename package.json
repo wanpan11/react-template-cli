@@ -4,7 +4,10 @@
   "description": "react项目模板",
   "keywords": [
     "react",
-    "react-template"
+    "react-template",
+    "react-admin",
+    "template",
+    "admin"
   ],
   "author": "wanp11",
   "license": "ISC",
