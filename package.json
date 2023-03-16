@@ -32,8 +32,10 @@
     "commander": "^8.3.0",
     "fs-extra": "^10.0.0",
     "inquirer": "^8.2.0",
+    "node-stream-zip": "^1.15.0",
     "ora": "^1.2.0",
-    "pkg-updater": "^1.0.4"
+    "pkg-updater": "^1.0.4",
+    "request": "^2.88.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

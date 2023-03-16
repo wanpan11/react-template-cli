@@ -1,8 +1,8 @@
 const program = require("commander");
 const inquirer = require("inquirer");
+const updater = require("pkg-updater");
 const info = require("../package.json");
 const { getTemplate } = require("./getTemplate");
-const updater = require("pkg-updater");
 
 const updaterMsg = `package update from <%=current%> to <%=latest%>.
 run 'npm i ${info.name} -g'
@@ -16,7 +16,6 @@ updater({
   updateMessage: updaterMsg, // custom notify message
 }).then(() => {
   /* start cli here */
-
   program.version(info.version, "-v, --version");
   program.description("react 项目模板初始化工具");
 
