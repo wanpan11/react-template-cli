@@ -1,6 +1,11 @@
-const path = require("path");
+import path from "path";
+import { fileURLToPath } from "url";
+import type { Config } from "./type";
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config: Config = {
   tempDir: path.join(__dirname, "../temp"),
   templateDir: path.join(__dirname, "../template"),
   repoUrls: {
@@ -12,3 +17,5 @@ module.exports = {
   },
   tpType: ["react", "react-ts"],
 };
+
+export default config;
