@@ -38,37 +38,9 @@ function __awaiter(thisArg, _arguments, P, generator) {
     });
 }
 
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
-var config = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const config = {
     tempDir: path.join(__dirname, "../temp"),
     templateDir: path.join(__dirname, "../template"),
     repoUrls: {
@@ -79,77 +51,57 @@ var config = {
     },
     tpType: ["react", "react-ts"],
 };
-var logFile = path.resolve(__dirname, "../versionLog.json");
+const logFile = path.resolve(__dirname, "../versionLog.json");
 
 function checkVersion(info) {
-    return __awaiter(this, void 0, void 0, function () {
-        var name, version, lastVer, _a, remoteVersion, date;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    name = info.name, version = info.version;
-                    lastVer = "";
-                    if (!fse.pathExistsSync(logFile)) return [3 /*break*/, 4];
-                    _a = fse.readJSONSync(logFile), remoteVersion = _a.remoteVersion, date = _a.date;
-                    if (!dayjs().isAfter(date)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, requestRemote(name)];
-                case 1:
-                    lastVer = _b.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    lastVer = remoteVersion;
-                    _b.label = 3;
-                case 3: return [3 /*break*/, 6];
-                case 4: return [4 /*yield*/, requestRemote(name)];
-                case 5:
-                    lastVer = _b.sent();
-                    _b.label = 6;
-                case 6:
-                    if (version !== lastVer) {
-                        return [2 /*return*/, { isUpdate: true, lastVer: lastVer }];
-                    }
-                    else {
-                        return [2 /*return*/, { isUpdate: false, lastVer: lastVer }];
-                    }
+    return __awaiter(this, void 0, void 0, function* () {
+        const { name, version } = info;
+        let lastVer = "";
+        if (fse.pathExistsSync(logFile)) {
+            const { remoteVersion, date } = fse.readJSONSync(logFile);
+            if (dayjs().isAfter(date)) {
+                lastVer = yield requestRemote(name);
             }
-        });
+            else {
+                lastVer = remoteVersion;
+            }
+        }
+        else {
+            lastVer = yield requestRemote(name);
+        }
+        if (version !== lastVer) {
+            return { isUpdate: true, lastVer };
+        }
+        else {
+            return { isUpdate: false, lastVer };
+        }
     });
 }
 function requestRemote(name) {
-    return __awaiter(this, void 0, void 0, function () {
-        var res, status, data, remoteVersion, log;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios.get("https://registry.npmjs.org/".concat(name))];
-                case 1:
-                    res = _a.sent();
-                    status = res.status, data = res.data;
-                    if (status === 200) {
-                        remoteVersion = data["dist-tags"].latest;
-                        log = {
-                            remoteVersion: remoteVersion,
-                            date: dayjs().add(7, "day"),
-                        };
-                        fse.writeJsonSync(logFile, log);
-                        return [2 /*return*/, remoteVersion];
-                    }
-                    return [3 /*break*/, 3];
-                case 2:
-                    _a.sent();
-                    throw new Error("requestRemote error");
-                case 3: return [2 /*return*/];
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const res = yield axios.get(`https://registry.npmjs.org/${name}`);
+            const { status, data } = res;
+            if (status === 200) {
+                const remoteVersion = data["dist-tags"].latest;
+                const log = {
+                    remoteVersion: remoteVersion,
+                    date: dayjs().add(7, "day"),
+                };
+                fse.writeJsonSync(logFile, log);
+                return remoteVersion;
             }
-        });
+        }
+        catch (error) {
+            throw new Error("requestRemote error");
+        }
     });
 }
 
-var tempDir = config.tempDir, templateDir = config.templateDir, repoUrls = config.repoUrls, repoName = config.repoName, tpType = config.tpType;
-var spinner = ora("");
-function getTemplate(_a) {
-    var projectName = _a.projectName, type = _a.type;
-    var runDir = path.resolve(process.cwd(), "./".concat(projectName));
+const { tempDir, templateDir, repoUrls, repoName, tpType } = config;
+const spinner = ora("");
+function getTemplate({ projectName, type, }) {
+    const runDir = path.resolve(process.cwd(), `./${projectName}`);
     spinner.start();
     spinner.color = "yellow";
     spinner.text = "模版下载中~~";
@@ -165,60 +117,48 @@ function getTemplate(_a) {
     }
 }
 function getReactTs(projectName, type, runDir) {
-    return __awaiter(this, void 0, void 0, function () {
-        var fileName, stream, _a, status, data, error_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    fileName = "/".concat(repoName[type], ".zip");
-                    stream = fse.createWriteStream(path.join(tempDir, fileName));
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios.get(repoUrls[type], {
-                            responseType: "stream",
-                        })];
-                case 2:
-                    _a = _b.sent(), status = _a.status, data = _a.data;
-                    if (status === 200) {
-                        data.pipe(stream);
-                        data.on("end", function () {
-                            var zip = new StreamZip({
-                                file: "".concat(tempDir + fileName),
-                                storeEntries: true,
-                            });
-                            zip.on("ready", function () {
-                                zip.extract("".concat(repoName[type], "-main"), runDir, function (extractErr) {
-                                    if (extractErr) {
-                                        errStop("模版解压失败 extractErr===>" + extractErr);
-                                    }
-                                    else {
-                                        install(projectName, runDir);
-                                    }
-                                    zip.close();
-                                });
-                            });
-                            zip.on("error", function (zipErr) {
-                                errStop("模版解压失败 zipErr===>" + zipErr);
-                            });
+    return __awaiter(this, void 0, void 0, function* () {
+        const fileName = `/${repoName[type]}.zip`;
+        const stream = fse.createWriteStream(path.join(tempDir, fileName));
+        try {
+            const { status, data } = yield axios.get(repoUrls[type], {
+                responseType: "stream",
+            });
+            if (status === 200) {
+                data.pipe(stream);
+                data.on("end", () => {
+                    const zip = new StreamZip({
+                        file: `${tempDir + fileName}`,
+                        storeEntries: true,
+                    });
+                    zip.on("ready", () => {
+                        zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
+                            if (extractErr) {
+                                errStop("模版解压失败 extractErr===>" + extractErr);
+                            }
+                            else {
+                                install(projectName, runDir);
+                            }
+                            zip.close();
                         });
-                    }
-                    else {
-                        errStop("网络异常！");
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _b.sent();
-                    errStop("模版下载失败 请检查网络！" + error_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    });
+                    zip.on("error", zipErr => {
+                        errStop("模版解压失败 zipErr===>" + zipErr);
+                    });
+                });
             }
-        });
+            else {
+                errStop("网络异常！");
+            }
+        }
+        catch (error) {
+            errStop("模版下载失败 请检查网络！" + error);
+        }
     });
 }
 function getReact(projectName, type, runDir) {
     try {
-        fse.copy("".concat(templateDir, "/").concat(type), runDir, function () {
+        fse.copy(`${templateDir}/${type}`, runDir, () => {
             install(projectName, runDir);
         });
     }
@@ -228,14 +168,14 @@ function getReact(projectName, type, runDir) {
 }
 function install(projectName, runDir) {
     try {
-        var packageObj = fse.readJsonSync("".concat(runDir, "/package.json"));
+        const packageObj = fse.readJsonSync(`${runDir}/package.json`);
         packageObj.name = projectName;
         // 格式化 package.json
-        fse.outputFileSync("".concat(runDir, "/package.json"), JSON.stringify(packageObj, null, "  "));
+        fse.outputFileSync(`${runDir}/package.json`, JSON.stringify(packageObj, null, "  "));
         spinner.succeed("模板创建完成");
         spinner.start("安装依赖中~~");
         /* 安装依赖 */
-        exec("cd ./".concat(projectName, " && pnpm i"), function (error) {
+        exec(`cd ./${projectName} && pnpm i`, error => {
             if (!error) {
                 spinner.succeed("完成啦~~");
             }
@@ -253,11 +193,12 @@ function errStop(msg) {
     spinner.stop();
 }
 
-checkVersion({ name: name, version: version })
-    .then(function (_a) {
-    var isUpdate = _a.isUpdate, lastVer = _a.lastVer;
+checkVersion({ name, version })
+    .then(({ isUpdate, lastVer }) => {
     if (isUpdate) {
-        var updaterMsg = "package update from ".concat(version, " to ").concat(lastVer, "\n     \n    run 'npm i ").concat(name, " -g'");
+        const updaterMsg = `package update from ${version} to ${lastVer}
+     
+    run 'npm i ${name} -g'`;
         console.log(boxen(updaterMsg, {
             padding: 1,
             borderColor: "blue",
@@ -271,8 +212,8 @@ checkVersion({ name: name, version: version })
         .command("init")
         .usage(" ")
         .description("创建 react 项目模板")
-        .action(function () {
-        var prompt = [
+        .action(() => {
+        const prompt = [
             {
                 type: "input",
                 message: "请输入项目名称",
@@ -287,13 +228,13 @@ checkVersion({ name: name, version: version })
                 choices: ["react", "react-ts"],
             },
         ];
-        inquirer.prompt(prompt).then(function (answers) {
+        inquirer.prompt(prompt).then(answers => {
             getTemplate(answers);
         });
     });
     program.parse(process.argv);
 })
-    .catch(function (e) {
+    .catch(e => {
     console.error(e);
 });
 //# sourceMappingURL=cli.js.map
