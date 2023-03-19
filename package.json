@@ -13,6 +13,13 @@
   "license": "ISC",
   "main": "index.js",
   "type": "module",
+  "files": [
+    "dist",
+    "index.js",
+    "package.json",
+    "template",
+    "README.md"
+  ],
   "bin": {
     "rt": "./index.js"
   },
