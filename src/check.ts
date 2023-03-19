@@ -1,12 +1,7 @@
-import path from "path";
 import fse from "fs-extra";
 import axios from "axios";
 import dayjs from "dayjs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const logFile = path.resolve(__dirname, "../versionLog.json");
+import { logFile } from "./config";
 
 async function checkVersion(info: { name: string; version: string }) {
   const { name, version } = info;

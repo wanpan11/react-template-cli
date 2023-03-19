@@ -21,7 +21,7 @@
     "url": "https://github.com/wanpan11/react-template-cli.git"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx,ts,tsx ./",
+    "lint": "eslint --ext .js,.jsx,ts,tsx ./ && tsc --noEmit",
     "build": "rollup --config ./rollup.config.js --watch",
     "prepare": "husky install"
   },
@@ -55,7 +55,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint  --fix"
+      "eslint  --fix",
+      "bash -c tsc --noEmit"
     ],
     "*.md": [
       "prettier --write"

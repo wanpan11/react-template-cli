@@ -38,30 +38,36 @@ async function getReactTs(projectName: string, type: string, runDir: string) {
   const stream = fse.createWriteStream(path.join(tempDir, fileName));
 
   try {
-    const response = await axios.get(repoUrls[type], {
+    const { status, data } = await axios.get(repoUrls[type], {
       responseType: "stream",
     });
-    response.data.pipe(stream);
 
-    const zip = new StreamZip({
-      file: `${tempDir + fileName}`,
-      storeEntries: true,
-    });
+    if (status === 200) {
+      data.pipe(stream);
+      data.on("end", () => {
+        const zip = new StreamZip({
+          file: `${tempDir + fileName}`,
+          storeEntries: true,
+        });
 
-    zip.on("error", zipErr => {
-      errStop("模版解压失败 zipErr===>" + zipErr);
-    });
+        zip.on("ready", () => {
+          zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
+            if (extractErr) {
+              errStop("模版解压失败 extractErr===>" + extractErr);
+            } else {
+              install(projectName, runDir);
+            }
+            zip.close();
+          });
+        });
 
-    zip.on("ready", () => {
-      zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
-        if (extractErr) {
-          errStop("模版解压失败 extractErr===>" + extractErr);
-        } else {
-          install(projectName, runDir);
-        }
-        zip.close();
+        zip.on("error", zipErr => {
+          errStop("模版解压失败 zipErr===>" + zipErr);
+        });
       });
-    });
+    } else {
+      errStop("网络异常！");
+    }
   } catch (error) {
     errStop("模版下载失败 请检查网络！" + error);
   }
@@ -81,10 +87,11 @@ function install(projectName: string, runDir: string) {
   try {
     const packageObj = fse.readJsonSync(`${runDir}/package.json`);
     packageObj.name = projectName;
+
     // 格式化 package.json
     fse.outputFileSync(
       `${runDir}/package.json`,
-      JSON.stringify(packageObj, [""], "\t")
+      JSON.stringify(packageObj, null, "  ")
     );
     spinner.succeed("模板创建完成");
     spinner.start("安装依赖中~~");

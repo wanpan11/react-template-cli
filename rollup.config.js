@@ -6,6 +6,7 @@ export default {
   output: {
     file: "./dist/cli.js",
     format: "es",
+    sourcemap: true,
   },
   plugins: [typescript(), json()],
 };

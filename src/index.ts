@@ -1,16 +1,16 @@
-import pkg from "../package.json";
+import { name, version } from "../package.json";
 import { checkVersion } from "./check";
 import { program } from "commander";
 import inquirer from "inquirer";
 import boxen from "boxen";
 import getTemplate from "./getTemplate";
 
-checkVersion(pkg)
+checkVersion({ name, version })
   .then(({ isUpdate, lastVer }) => {
     if (isUpdate) {
-      const updaterMsg = `package update from ${pkg.version} to ${lastVer}
+      const updaterMsg = `package update from ${version} to ${lastVer}
      
-    run 'npm i ${pkg.name} -g'`;
+    run 'npm i ${name} -g'`;
 
       console.log(
         boxen(updaterMsg, {
@@ -21,7 +21,7 @@ checkVersion(pkg)
       );
     }
 
-    program.version(pkg.version, "-v, --version");
+    program.version(version, "-v, --version");
     program.description("react 项目模板初始化工具");
 
     program
@@ -54,5 +54,5 @@ checkVersion(pkg)
     program.parse(process.argv);
   })
   .catch(e => {
-    console.log("error ===> ", e);
+    console.error(e);
   });

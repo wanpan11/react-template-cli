@@ -1,7 +1,7 @@
-import path from 'path';
 import fse from 'fs-extra';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import { program } from 'commander';
 import inquirer from 'inquirer';
@@ -12,81 +12,6 @@ import ora from 'ora';
 
 var name = "react-tp-cli";
 var version = "3.0.0";
-var description = "react项目模板";
-var keywords = [
-	"react",
-	"react-template",
-	"react-admin",
-	"template",
-	"admin"
-];
-var author = "wanp11";
-var license = "ISC";
-var main = "index.js";
-var type = "module";
-var bin = {
-	rt: "./index.js"
-};
-var repository = {
-	type: "git",
-	url: "https://github.com/wanpan11/react-template-cli.git"
-};
-var scripts = {
-	lint: "eslint --ext .js,.jsx,ts,tsx ./",
-	build: "rollup --config ./rollup.config.js --watch",
-	prepare: "husky install"
-};
-var devDependencies = {
-	"@rollup/plugin-json": "^6.0.0",
-	"@rollup/plugin-typescript": "^11.0.0",
-	"@types/fs-extra": "^11.0.1",
-	"@types/inquirer": "^9.0.3",
-	"@types/node": "^18.15.3",
-	"@typescript-eslint/eslint-plugin": "^5.55.0",
-	"@typescript-eslint/parser": "^5.55.0",
-	eslint: "^8.21.0",
-	"eslint-config-prettier": "^8.5.0",
-	"eslint-plugin-prettier": "^4.2.1",
-	husky: "^8.0.3",
-	"lint-staged": "^13.1.2",
-	prettier: "2.7.1",
-	rollup: "^3.19.1",
-	tslib: "^2.5.0"
-};
-var dependencies = {
-	axios: "^1.3.4",
-	boxen: "^7.0.2",
-	commander: "^8.3.0",
-	dayjs: "^1.11.7",
-	"fs-extra": "^10.0.0",
-	inquirer: "^8.2.0",
-	"node-stream-zip": "^1.15.0",
-	ora: "^6.1.2",
-	typescript: "^5.0.2"
-};
-var pkg = {
-	name: name,
-	version: version,
-	description: description,
-	keywords: keywords,
-	author: author,
-	license: license,
-	main: main,
-	type: type,
-	bin: bin,
-	repository: repository,
-	scripts: scripts,
-	devDependencies: devDependencies,
-	dependencies: dependencies,
-	"lint-staged": {
-	"*.{js,jsx,ts,tsx}": [
-		"eslint  --fix"
-	],
-	"*.md": [
-		"prettier --write"
-	]
-}
-};
 
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -113,9 +38,21 @@ function __awaiter(thisArg, _arguments, P, generator) {
     });
 }
 
-const __filename$1 = fileURLToPath(import.meta.url);
-const __dirname$1 = path.dirname(__filename$1);
-const logFile = path.resolve(__dirname$1, "../versionLog.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const config = {
+    tempDir: path.join(__dirname, "../temp"),
+    templateDir: path.join(__dirname, "../template"),
+    repoUrls: {
+        "react-ts": "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/main",
+    },
+    repoName: {
+        "react-ts": "react-admin-tp",
+    },
+    tpType: ["react", "react-ts"],
+};
+const logFile = path.resolve(__dirname, "../versionLog.json");
+
 function checkVersion(info) {
     return __awaiter(this, void 0, void 0, function* () {
         const { name, version } = info;
@@ -161,20 +98,6 @@ function requestRemote(name) {
     });
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const config = {
-    tempDir: path.join(__dirname, "../temp"),
-    templateDir: path.join(__dirname, "../template"),
-    repoUrls: {
-        "react-ts": "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/main",
-    },
-    repoName: {
-        "react-ts": "react-admin-tp",
-    },
-    tpType: ["react", "react-ts"],
-};
-
 const { tempDir, templateDir, repoUrls, repoName, tpType } = config;
 const spinner = ora("");
 function getTemplate({ projectName, type, }) {
@@ -198,28 +121,35 @@ function getReactTs(projectName, type, runDir) {
         const fileName = `/${repoName[type]}.zip`;
         const stream = fse.createWriteStream(path.join(tempDir, fileName));
         try {
-            const response = yield axios.get(repoUrls[type], {
+            const { status, data } = yield axios.get(repoUrls[type], {
                 responseType: "stream",
             });
-            response.data.pipe(stream);
-            const zip = new StreamZip({
-                file: `${tempDir + fileName}`,
-                storeEntries: true,
-            });
-            zip.on("error", zipErr => {
-                errStop("模版解压失败 zipErr===>" + zipErr);
-            });
-            zip.on("ready", () => {
-                zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
-                    if (extractErr) {
-                        errStop("模版解压失败 extractErr===>" + extractErr);
-                    }
-                    else {
-                        install(projectName, runDir);
-                    }
-                    zip.close();
+            if (status === 200) {
+                data.pipe(stream);
+                data.on("end", () => {
+                    const zip = new StreamZip({
+                        file: `${tempDir + fileName}`,
+                        storeEntries: true,
+                    });
+                    zip.on("ready", () => {
+                        zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
+                            if (extractErr) {
+                                errStop("模版解压失败 extractErr===>" + extractErr);
+                            }
+                            else {
+                                install(projectName, runDir);
+                            }
+                            zip.close();
+                        });
+                    });
+                    zip.on("error", zipErr => {
+                        errStop("模版解压失败 zipErr===>" + zipErr);
+                    });
                 });
-            });
+            }
+            else {
+                errStop("网络异常！");
+            }
         }
         catch (error) {
             errStop("模版下载失败 请检查网络！" + error);
@@ -241,7 +171,7 @@ function install(projectName, runDir) {
         const packageObj = fse.readJsonSync(`${runDir}/package.json`);
         packageObj.name = projectName;
         // 格式化 package.json
-        fse.outputFileSync(`${runDir}/package.json`, JSON.stringify(packageObj, [""], "\t"));
+        fse.outputFileSync(`${runDir}/package.json`, JSON.stringify(packageObj, null, "  "));
         spinner.succeed("模板创建完成");
         spinner.start("安装依赖中~~");
         /* 安装依赖 */
@@ -263,19 +193,19 @@ function errStop(msg) {
     spinner.stop();
 }
 
-checkVersion(pkg)
+checkVersion({ name, version })
     .then(({ isUpdate, lastVer }) => {
     if (isUpdate) {
-        const updaterMsg = `package update from ${pkg.version} to ${lastVer}
+        const updaterMsg = `package update from ${version} to ${lastVer}
      
-    run 'npm i ${pkg.name} -g'`;
+    run 'npm i ${name} -g'`;
         console.log(boxen(updaterMsg, {
             padding: 1,
             borderColor: "blue",
             borderStyle: "double",
         }));
     }
-    program.version(pkg.version, "-v, --version");
+    program.version(version, "-v, --version");
     program.description("react 项目模板初始化工具");
     program
         .usage("<command>")
@@ -305,5 +235,6 @@ checkVersion(pkg)
     program.parse(process.argv);
 })
     .catch(e => {
-    console.log("error ===> ", e);
+    console.error(e);
 });
+//# sourceMappingURL=cli.js.map

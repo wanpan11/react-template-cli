@@ -18,4 +18,7 @@ const config: Config = {
   tpType: ["react", "react-ts"],
 };
 
+const logFile = path.resolve(__dirname, "../versionLog.json");
+
+export { logFile };
 export default config;
