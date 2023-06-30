@@ -1,8 +1,5 @@
 ### 更新日志
 
-- 1.2.5
-  - devServer
-    - 减少控制台编译日志
-    - 开启 gzip
-  - product
-    - 添加 BundleAnalyzerPlugin
+- 3.1.3
+  - 推荐使用 TS 模板
+  - 优化代码

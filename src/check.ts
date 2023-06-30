@@ -3,7 +3,10 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { logFile } from "./config";
 
-async function checkVersion(info: { name: string; version: string }) {
+async function checkVersion(info: {
+  name: string;
+  version: string;
+}): Promise<CheckInfo> {
   const { name, version } = info;
 
   let lastVer = "";
@@ -19,7 +22,7 @@ async function checkVersion(info: { name: string; version: string }) {
     lastVer = await requestRemote(name);
   }
 
-  if (version !== lastVer) {
+  if (lastVer && version !== lastVer) {
     return { isUpdate: true, lastVer };
   } else {
     return { isUpdate: false, lastVer };
@@ -31,18 +34,19 @@ async function requestRemote(name: string) {
     const res = await axios.get(`https://registry.npmjs.org/${name}`);
 
     const { status, data } = res;
-
     if (status === 200) {
-      const remoteVersion = data["dist-tags"].latest;
+      const remoteVersion: string = data["dist-tags"].latest;
       const log = {
         remoteVersion: remoteVersion,
         date: dayjs().add(7, "day"),
       };
       fse.writeJsonSync(logFile, log);
       return remoteVersion;
+    } else {
+      return "";
     }
   } catch (error) {
-    throw new Error("requestRemote error");
+    return "";
   }
 }
 

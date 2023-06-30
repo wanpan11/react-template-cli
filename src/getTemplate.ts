@@ -4,41 +4,35 @@ import { exec } from "child_process";
 import StreamZip from "node-stream-zip";
 import ora from "ora";
 import axios from "axios";
-import config from "./config";
+import downloadConf, { tpList, repo } from "./config";
 
-const { tempDir, templateDir, repoUrls, repoName, tpType } = config;
+const { tempDir, templateDir } = downloadConf;
 const spinner = ora("");
 
-function getTemplate({
-  projectName,
-  type,
-}: {
-  projectName: string;
-  type: string;
-}) {
+function getTemplate({ projectName, type }: CliInput) {
   const runDir = path.resolve(process.cwd(), `./${projectName}`);
   spinner.start();
   spinner.color = "yellow";
   spinner.text = "模版下载中~~";
 
-  /* 压缩包目录 */
-  if (!fse.existsSync(tempDir)) {
-    fse.mkdirSync(tempDir);
-  }
+  if (type === tpList[0]) {
+    if (!fse.existsSync(tempDir)) {
+      fse.mkdirSync(tempDir);
+    }
 
-  if (type === tpType[0]) {
-    getReact(projectName, type, runDir);
-  } else {
     getReactTs(projectName, type, runDir);
+  } else {
+    getReact(projectName, type, runDir);
   }
 }
 
 async function getReactTs(projectName: string, type: string, runDir: string) {
-  const fileName = `/${repoName[type]}.zip`;
-  const stream = fse.createWriteStream(path.join(tempDir, fileName));
+  const fileName = `${Date.now()}.zip`;
+  const zipPath = path.resolve(tempDir, "./" + fileName);
+  const stream = fse.createWriteStream(zipPath);
 
   try {
-    const { status, data } = await axios.get(repoUrls[type], {
+    const { status, data } = await axios.get(repo[type].url, {
       responseType: "stream",
     });
 
@@ -46,12 +40,12 @@ async function getReactTs(projectName: string, type: string, runDir: string) {
       data.pipe(stream);
       data.on("end", () => {
         const zip = new StreamZip({
-          file: `${tempDir + fileName}`,
+          file: zipPath,
           storeEntries: true,
         });
 
         zip.on("ready", () => {
-          zip.extract(`${repoName[type]}-main`, runDir, extractErr => {
+          zip.extract(repo[type].dirName, runDir, extractErr => {
             if (extractErr) {
               errStop("模版解压失败 extractErr===>" + extractErr);
             } else {

@@ -30,6 +30,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.jsx,ts,tsx ./ && tsc --noEmit",
     "build": "rollup --config ./rollup.config.js --watch",
+    "test": "node index.js init",
     "prepare": "husky install"
   },
   "devDependencies": {

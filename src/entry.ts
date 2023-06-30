@@ -1,9 +1,10 @@
-import { name, version } from "../package.json";
-import { checkVersion } from "./check";
 import { program } from "commander";
 import inquirer from "inquirer";
 import boxen from "boxen";
+import { name, version } from "../package.json";
+import { checkVersion } from "./check";
 import getTemplate from "./getTemplate";
+import { tpList } from "./config";
 
 checkVersion({ name, version })
   .then(({ isUpdate, lastVer }) => {
@@ -27,7 +28,6 @@ checkVersion({ name, version })
     program
       .usage("<command>")
       .command("init")
-      .usage(" ")
       .description("创建 react 项目模板")
       .action(() => {
         const prompt = [
@@ -39,14 +39,14 @@ checkVersion({ name, version })
           },
           {
             type: "list",
-            message: "请选择模板类型：",
+            message: "请选择模板：",
             name: "type",
-            default: "react",
-            choices: ["react", "react-ts"],
+            default: tpList[0],
+            choices: tpList,
           },
         ];
 
-        inquirer.prompt(prompt).then(answers => {
+        inquirer.prompt(prompt).then((answers: CliInput) => {
           getTemplate(answers);
         });
       });
