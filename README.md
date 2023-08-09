@@ -11,7 +11,7 @@
 #### 内置功能
 
 - typescript
-- tailwind css
+- tailwind css (原子 css)
 - eslint、prettier 代码自动检查、保存修复
 - git 提交前自动修复
 - 动态环境变量
@@ -19,16 +19,21 @@
 - 任务扩展
 - 零黑盒
 - 自定义常用表组组件
+- 不定时更新流行技术
 
 [TS 模版仓库](https://github.com/wanpan11/react-admin-tp)
 
 #### 运行环境
 
-全局安装 <a href="https://pnpm.io/"> pnpm </a>
-pnpm 是个很好的包管理器
+> 全局安装 <a href="https://pnpm.io/"> pnpm </a>
+> pnpm 是个很好的包管理器 速度快 没有幽灵依赖
 
 ```
-npm install -g pnpm
+// 安装包管理工具
+npm install pnpm -g
+
+// 安装包脚手架
+npm install react-tp-cli -g
 ```
 
 #### 使用
