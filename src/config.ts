@@ -10,11 +10,15 @@ const downloadConf = {
 };
 
 const logFile = path.resolve(__dirname, "../versionLog.json");
-const tpList = ["react-ts-webpack(推荐)", "react"];
+const tpList = ["react-ts-vite", "react-ts-webpack"];
 const repo = {
   [tpList[0]]: {
-    url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/main",
-    dirName: "react-admin-tp-main",
+    url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/vite",
+    dirName: "react-admin-tp-vite",
+  },
+  [tpList[1]]: {
+    url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/webpack",
+    dirName: "react-admin-tp-webpack",
   },
 };
 export { logFile, tpList, repo };
