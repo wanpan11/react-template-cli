@@ -78,12 +78,19 @@ function install(projectName: string, runDir: string) {
     spinner.succeed("模板创建完成");
     spinner.start("安装依赖中~~");
 
-    /* 安装依赖 */
-    exec(`cd ./${projectName} && pnpm i`, error => {
-      if (!error) {
-        spinner.succeed("依赖下载完成啦~~");
+    // 检查 pnpm
+    exec("pnpm -v", checkErr => {
+      if (!checkErr) {
+        /* 安装依赖 */
+        exec(`cd ./${projectName} && pnpm i`, installErr => {
+          if (!installErr) {
+            spinner.succeed("依赖下载完成啦~~");
+          } else {
+            spinner.fail("依赖下载异常~~" + installErr);
+          }
+        });
       } else {
-        spinner.fail("依赖下载失败啦~~");
+        spinner.succeed("pnpm 不存在请手动安装依赖");
       }
     });
   } catch (error) {

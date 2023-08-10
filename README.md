@@ -8,25 +8,25 @@
 ![Static Badge](https://img.shields.io/badge/webpack-black?logo=webpack&style=for-the-badge)
 ![Static Badge](https://img.shields.io/badge/vite-black?logo=vite&style=for-the-badge)
 
-#### 内置功能
+#### 模版内置功能
 
 - typescript
 - tailwind css (原子 css)
-- eslint、prettier 代码自动检查、保存修复
-- git 提交前自动修复
+- eslint、prettier 代码检查、保存修复
+- git hook 提交前自动修复
 - 动态环境变量
 - 动态打包配置
-- 任务扩展
+- 任意扩展
 - 零黑盒
 - 自定义常用表组组件
 - 不定时更新流行技术
 
-[TS 模版仓库](https://github.com/wanpan11/react-admin-tp)
+> [模版项目仓库](https://github.com/wanpan11/react-admin-tp)
 
 #### 运行环境
 
 > 全局安装 <a href="https://pnpm.io/"> pnpm </a>
-> pnpm 是个很好的包管理器 速度快 没有幽灵依赖
+> pnpm 是个很好的包管理器 速度快 没有幽灵依赖 更直观
 
 ```
 // 安装包管理工具
