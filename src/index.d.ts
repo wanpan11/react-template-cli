@@ -3,7 +3,8 @@ interface CheckInfo {
   lastVer: string;
 }
 
-interface CliInput {
+interface CliOutput {
   projectName: string;
-  type: string;
+  type: "react-ts-vite" | "react-ts-webpack";
+  install: "Y" | "N";
 }

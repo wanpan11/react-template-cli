@@ -1,8 +1,35 @@
 import path from "path";
+import boxen from "boxen";
+import chalk from "chalk";
 import { fileURLToPath } from "url";
+import { name } from "../package.json";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const tpList = ["react-ts-vite", "react-ts-webpack"];
+
+const prompt = [
+  {
+    type: "input",
+    message: "请输入项目名称：",
+    name: "projectName",
+    default: "react-app",
+  },
+  {
+    type: "list",
+    message: "请选择模板：",
+    name: "type",
+    default: tpList[0],
+    choices: tpList,
+  },
+  {
+    type: "list",
+    message: "是否自动安装依赖：",
+    name: "install",
+    default: "N",
+    choices: ["Y", "N"],
+  },
+];
 
 const downloadConf = {
   tempDir: path.resolve(__dirname, "../temp"),
@@ -10,7 +37,7 @@ const downloadConf = {
 };
 
 const logFile = path.resolve(__dirname, "../versionLog.json");
-const tpList = ["react-ts-vite", "react-ts-webpack"];
+
 const repo = {
   [tpList[0]]: {
     url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/vite",
@@ -21,5 +48,24 @@ const repo = {
     dirName: "react-admin-tp-webpack",
   },
 };
-export { logFile, tpList, repo };
-export default downloadConf;
+
+const printUpdateMsg = (version: string, lastVer: string) => {
+  console.log(
+    boxen(
+      `package update from ${version} to ${lastVer}
+
+    run ${chalk.blue(`npm i ${name} -g`)}
+
+   Please upgrade before using
+
+        请升级后在使用`,
+      {
+        padding: 1,
+        borderColor: "blue",
+        borderStyle: "double",
+      }
+    )
+  );
+};
+
+export { prompt, logFile, tpList, repo, printUpdateMsg, downloadConf };
