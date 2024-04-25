@@ -63,7 +63,7 @@ async function download() {
         });
 
         zip.on("error", zipErr => {
-          errStop("模版下载失败 ===>" + zipErr);
+          errStop("解压准备异常 ===>" + zipErr);
         });
       });
     } else {
