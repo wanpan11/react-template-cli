@@ -13,12 +13,12 @@ checkVersion({ name, version })
     }
 
     program.version(version, "-v, --version");
-    program.description("react 项目模板初始化工具");
+    program.description("React project template initialization tool");
 
     program
       .usage("<command>")
       .command("init")
-      .description("创建 react 项目模板")
+      .description("create project")
       .action(() => {
         inquirer.prompt(prompt).then((answers: CliOutput) => {
           getTemplate(answers);

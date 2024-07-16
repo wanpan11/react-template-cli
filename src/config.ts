@@ -11,20 +11,20 @@ const tpList = ["react-ts-vite", "react-ts-webpack"];
 const prompt = [
   {
     type: "input",
-    message: "请输入项目名称(name)：",
+    message: "请输入项目名称(project name)：",
     name: "projectName",
     default: "react-app",
   },
   {
     type: "list",
-    message: "选择模板(template)：",
+    message: "选择模板(choose template)：",
     name: "type",
     default: tpList[0],
     choices: tpList,
   },
   {
     type: "list",
-    message: "安装依赖(download des)：",
+    message: "安装依赖(download dependencies)：",
     name: "install",
     default: "N",
     choices: ["Y", "N"],

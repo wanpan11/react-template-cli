@@ -22,7 +22,7 @@ function getTemplate({ projectName, type, install }: CliOutput) {
 
   spinner.start();
   spinner.color = "yellow";
-  spinner.text = "模版下载中~~";
+  spinner.text = "template downloading ~~";
 
   if (!fse.existsSync(tempDir)) fse.mkdirSync(tempDir);
 
@@ -40,11 +40,11 @@ async function download() {
     });
 
     if (status === 200) {
-      spinner.succeed("模板下载成功");
+      // spinner.succeed("模板下载成功");
 
       data.pipe(stream);
       data.on("end", () => {
-        spinner.start("模板解压中~~");
+        // spinner.start("模板解压中~~");
 
         const zip = new StreamZip({
           file: zipPath,
@@ -54,7 +54,7 @@ async function download() {
         zip.on("ready", () => {
           zip.extract(repo[typeGlobal].dirName, runDirGlobal, extractErr => {
             if (extractErr) {
-              errStop("模版解压失败 ===>" + extractErr);
+              errStop("decompression failed ===>" + extractErr);
             } else {
               install();
             }
@@ -63,14 +63,14 @@ async function download() {
         });
 
         zip.on("error", zipErr => {
-          errStop("解压准备异常 ===>" + zipErr);
+          errStop("decompression failed ===>" + zipErr);
         });
       });
     } else {
-      errStop("网络异常！");
+      errStop("network error!");
     }
   } catch (error) {
-    errStop("模版下载失败 请检查网络！" + error);
+    errStop("download error!" + error);
   }
 }
 
@@ -84,23 +84,23 @@ function install() {
       `${runDirGlobal}/package.json`,
       JSON.stringify(packageObj, null, "  ")
     );
-    spinner.succeed("模板创建完成");
-    if (needInstall === "N") return;
+    spinner.succeed("template create success!");
 
-    spinner.start("安装依赖中~~");
+    if (needInstall === "N") return;
+    spinner.start("installing dependencies ~~");
     // 检查 pnpm
     exec("pnpm -v", checkErr => {
       if (!checkErr) {
         /* 安装依赖 */
         exec(`cd ./${projectNameGlobal} && pnpm i`, installErr => {
           if (!installErr) {
-            spinner.succeed("依赖下载完成啦~~");
+            spinner.succeed("success ~~");
           } else {
-            spinner.fail("依赖下载异常~~" + installErr);
+            spinner.fail("installing dependencies error ~~" + installErr);
           }
         });
       } else {
-        spinner.succeed("pnpm 不存在请手动安装依赖");
+        spinner.succeed("pnpm does not exist!");
       }
     });
   } catch (error) {
