@@ -7,10 +7,7 @@ import { prompt, printUpdateMsg } from "./config";
 
 checkVersion({ name, version })
   .then(({ isUpdate, lastVer }) => {
-    if (isUpdate) {
-      printUpdateMsg(version, lastVer);
-      return;
-    }
+    if (isUpdate) return printUpdateMsg(version, lastVer);
 
     program.version(version, "-v, --version");
     program.description("React project template initialization tool");

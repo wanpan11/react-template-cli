@@ -1,53 +1,48 @@
 import fse from "fs-extra";
-import axios from "axios";
 import dayjs from "dayjs";
 import { logFile } from "./config";
+import { exec } from "child_process";
 
 async function checkVersion(info: {
   name: string;
   version: string;
 }): Promise<CheckInfo> {
   const { name, version } = info;
-
   let lastVer = "";
-  if (fse.pathExistsSync(logFile)) {
-    const { remoteVersion, date } = fse.readJSONSync(logFile);
 
-    if (dayjs().isAfter(date)) {
-      lastVer = await requestRemote(name);
-    } else {
+  try {
+    if (fse.pathExistsSync(logFile)) {
+      const { remoteVersion, date } = fse.readJSONSync(logFile);
       lastVer = remoteVersion;
-    }
-  } else {
-    lastVer = await requestRemote(name);
-  }
 
-  if (lastVer && version !== lastVer) {
-    return { isUpdate: true, lastVer };
-  } else {
+      if (dayjs().isAfter(date)) {
+        lastVer = await requestRemote(name);
+      }
+    } else {
+      lastVer = await requestRemote(name);
+    }
+
+    return { isUpdate: !!lastVer && version !== lastVer, lastVer };
+  } catch (error) {
     return { isUpdate: false, lastVer };
   }
 }
 
-async function requestRemote(name: string) {
-  try {
-    const res = await axios.get(`https://registry.npmjs.org/${name}`);
-
-    const { status, data } = res;
-    if (status === 200) {
-      const remoteVersion: string = data["dist-tags"].latest;
-      const log = {
-        remoteVersion: remoteVersion,
-        date: dayjs().add(3, "day"),
-      };
-      fse.writeJsonSync(logFile, log);
-      return remoteVersion;
-    } else {
-      return "";
-    }
-  } catch (error) {
-    return "";
-  }
+function requestRemote(name: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    exec(`npm view ${name} version`, (err, stdout) => {
+      if (err) {
+        reject(err);
+      } else {
+        const remoteVersion = stdout.trim();
+        fse.writeJsonSync(logFile, {
+          remoteVersion,
+          date: dayjs().add(3, "day"),
+        });
+        resolve(remoteVersion);
+      }
+    });
+  });
 }
 
 export { checkVersion };
