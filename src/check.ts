@@ -38,7 +38,7 @@ async function requestRemote(name: string) {
       const remoteVersion: string = data["dist-tags"].latest;
       const log = {
         remoteVersion: remoteVersion,
-        date: dayjs().add(7, "day"),
+        date: dayjs().add(3, "day"),
       };
       fse.writeJsonSync(logFile, log);
       return remoteVersion;

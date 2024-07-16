@@ -58,7 +58,7 @@ const printUpdateMsg = (version: string, lastVer: string) => {
 
    Please upgrade before using
 
-        请升级后在使用`,
+        请升级后使用`,
       {
         padding: 1,
         borderColor: "blue",
