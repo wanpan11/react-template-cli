@@ -14,16 +14,15 @@
   ],
   "author": "wanp11",
   "license": "ISC",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "files": [
     "dist",
-    "index.js",
     "package.json",
     "README.md"
   ],
   "bin": {
-    "rt": "./index.js"
+    "rt": "./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -31,9 +30,11 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,ts,tsx ./ && tsc --noEmit",
-    "build": "rollup --config ./rollup.config.js --watch",
     "test": "tsx ./src/main.ts init",
-    "prepare": "husky install"
+    "dev": "rollup --config ./rollup.config.js --watch",
+    "build": "rollup --config ./rollup.config.js",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
