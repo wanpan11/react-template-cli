@@ -17,6 +17,7 @@
   "type": "module",
   "files": [
     "dist",
+    "index.js",
     "package.json",
     "README.md"
   ],
