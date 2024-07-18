@@ -14,7 +14,6 @@
   ],
   "author": "wanp11",
   "license": "ISC",
-  "main": "./dist/index.js",
   "type": "module",
   "files": [
     "dist",
@@ -22,7 +21,7 @@
     "README.md"
   ],
   "bin": {
-    "rt": "./dist/index.js"
+    "rt": "./index.js"
   },
   "repository": {
     "type": "git",
