@@ -1,16 +1,15 @@
 {
   "name": "react-tp-cli",
   "version": "3.3.0",
-  "description": "react项目模板",
+  "description": "🧵Utilities for creating React projects | React 模板项目脚手架",
   "keywords": [
     "react",
+    "react-项目模板",
+    "react-项目脚手架",
     "react-template",
     "react-admin",
     "template",
-    "admin",
-    "react-admin",
-    "webpack",
-    "vite"
+    "admin"
   ],
   "author": "wanp11",
   "license": "ISC",
