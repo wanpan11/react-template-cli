@@ -10,7 +10,7 @@ const { tempDir } = downloadConf;
 const spinner = ora("");
 
 let projectNameGlobal = "";
-let typeGlobal = "";
+let typeGlobal: CliOutput["type"] = "react-ts-rsbuild";
 let runDirGlobal = "";
 let needInstall: CliOutput["install"] = "N";
 

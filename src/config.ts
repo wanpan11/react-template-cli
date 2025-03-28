@@ -6,7 +6,11 @@ import { name } from "../package.json";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const tpList = ["react-ts-vite", "react-ts-webpack"];
+const tpList: CliOutput["type"][] = [
+  "react-ts-vite",
+  "react-ts-rsbuild",
+  "react-ts-webpack",
+];
 
 const prompt = [
   {
@@ -38,14 +42,18 @@ const downloadConf = {
 
 const logFile = path.resolve(__dirname, "../versionLog.json");
 
-const repo = {
-  [tpList[0]]: {
+const repo: Record<CliOutput["type"], { url: string; dirName: string }> = {
+  "react-ts-vite": {
     url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/vite",
     dirName: "react-admin-tp-vite",
   },
-  [tpList[1]]: {
+  "react-ts-webpack": {
     url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/webpack",
     dirName: "react-admin-tp-webpack",
+  },
+  "react-ts-rsbuild": {
+    url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/rsbuild",
+    dirName: "react-admin-tp-rsbuild",
   },
 };
 

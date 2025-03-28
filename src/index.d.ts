@@ -5,6 +5,6 @@ interface CheckInfo {
 
 interface CliOutput {
   projectName: string;
-  type: "react-ts-vite" | "react-ts-webpack";
+  type: "react-ts-vite" | "react-ts-webpack" | "react-ts-rsbuild";
   install: "Y" | "N";
 }
