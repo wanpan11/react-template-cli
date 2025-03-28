@@ -3,10 +3,11 @@
 ![CI](https://github.com/Hitotsubashi/cicd-study/actions/workflows/ci.yml/badge.svg)
 [![OSCS Status](https://www.oscs1024.com/platform/badge/wanpan11/react-template-cli.svg?size=small)](https://www.oscs1024.com/project/wanpan11/react-template-cli?ref=badge_small)
 
-#### 构建工具任选 webpack vite
+#### 构建工具任选 webpack vite rsbuild
 
 ![Static Badge](https://img.shields.io/badge/webpack-black?logo=webpack&style=for-the-badge)
 ![Static Badge](https://img.shields.io/badge/vite-black?logo=vite&style=for-the-badge)
+![Static Badge](https://img.shields.io/badge/rsbuild-black?style=for-the-badge)
 
 #### 模版内置功能
 
