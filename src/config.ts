@@ -7,8 +7,8 @@ import { name } from "../package.json";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const tpList: CliOutput["type"][] = [
+  "🌟react-ts-rsbuild (推荐/recommend)",
   "react-ts-vite",
-  "react-ts-rsbuild",
   "react-ts-webpack",
 ];
 
@@ -51,7 +51,7 @@ const repo: Record<CliOutput["type"], { url: string; dirName: string }> = {
     url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/webpack",
     dirName: "react-admin-tp-webpack",
   },
-  "react-ts-rsbuild": {
+  "🌟react-ts-rsbuild (推荐/recommend)": {
     url: "https://codeload.github.com/wanpan11/react-admin-tp/zip/refs/heads/rsbuild",
     dirName: "react-admin-tp-rsbuild",
   },
