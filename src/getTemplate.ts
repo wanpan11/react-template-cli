@@ -1,6 +1,6 @@
 import path from "path";
 import fse from "fs-extra";
-import { exec } from "child_process";
+import { execSync } from "child_process";
 import StreamZip from "node-stream-zip";
 import ora from "ora";
 import axios from "axios";
@@ -10,14 +10,14 @@ const { tempDir } = downloadConf;
 const spinner = ora("");
 
 let projectNameGlobal = "";
-let typeGlobal: CliOutput["type"] = "🌟react-ts-rsbuild (推荐/recommend)";
-let runDirGlobal = "";
+let selectTypeGlobal: CliOutput["type"] = "🌟react-ts-rsbuild (推荐/recommend)";
+let userDirGlobal = "";
 let needInstall: CliOutput["install"] = "N";
 
 function getTemplate({ projectName, type, install }: CliOutput) {
   projectNameGlobal = projectName;
-  typeGlobal = type;
-  runDirGlobal = path.resolve(process.cwd(), `./${projectName}`);
+  selectTypeGlobal = type;
+  userDirGlobal = path.resolve(process.cwd(), `./${projectName}`);
   needInstall = install;
 
   spinner.start();
@@ -35,7 +35,7 @@ async function download() {
   const stream = fse.createWriteStream(zipPath);
 
   try {
-    const { status, data } = await axios.get(repo[typeGlobal].url, {
+    const { status, data } = await axios.get(repo[selectTypeGlobal].url, {
       responseType: "stream",
     });
 
@@ -52,14 +52,18 @@ async function download() {
         });
 
         zip.on("ready", () => {
-          zip.extract(repo[typeGlobal].dirName, runDirGlobal, extractErr => {
-            if (extractErr) {
-              errStop("decompression failed ===>" + extractErr);
-            } else {
-              install();
+          zip.extract(
+            repo[selectTypeGlobal].dirName,
+            userDirGlobal,
+            extractErr => {
+              if (extractErr) {
+                errStop("decompression failed ===>" + extractErr);
+              } else {
+                install();
+              }
+              zip.close();
             }
-            zip.close();
-          });
+          );
         });
 
         zip.on("error", zipErr => {
@@ -76,33 +80,43 @@ async function download() {
 
 function install() {
   try {
-    const packageObj = fse.readJsonSync(`${runDirGlobal}/package.json`);
+    const packageObj = fse.readJsonSync(`${userDirGlobal}/package.json`);
     packageObj.name = projectNameGlobal;
 
     // 格式化 package.json
     fse.outputFileSync(
-      `${runDirGlobal}/package.json`,
+      `${userDirGlobal}/package.json`,
       JSON.stringify(packageObj, null, "  ")
     );
     spinner.succeed("template create success!");
+    clearTemp();
 
-    if (needInstall === "N") return;
-    spinner.start("installing dependencies ~~");
-    // 检查 pnpm
-    exec("pnpm -v", checkErr => {
-      if (!checkErr) {
-        /* 安装依赖 */
-        exec(`cd ./${projectNameGlobal} && pnpm i`, installErr => {
-          if (!installErr) {
-            spinner.succeed("success ~~");
-          } else {
-            spinner.fail("installing dependencies error ~~" + installErr);
-          }
-        });
-      } else {
-        spinner.succeed("pnpm does not exist!");
-      }
-    });
+    try {
+      // 切换到项目目录
+      process.chdir(userDirGlobal);
+
+      // git
+      const git = execSync("git init", { encoding: "utf8" });
+      spinner.info(`git init: ${git.trim()}`);
+
+      // 检查是否需要安装依赖
+      if (needInstall === "N") return;
+
+      // 检查pnpm版本
+      const version = execSync("pnpm -v", { encoding: "utf8" });
+      spinner.info(`pnpm version: ${version.trim()}`);
+
+      // 安装依赖
+      spinner.start("installing dependencies ~~");
+      execSync("pnpm i", { stdio: "inherit" });
+      spinner.succeed("react template created. ~~");
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error?.message || error);
+      spinner.fail("dependency installation failed.");
+      return;
+    }
   } catch (error) {
     errStop(error as string);
   }
@@ -111,6 +125,12 @@ function install() {
 function errStop(msg: string) {
   spinner.fail(msg);
   spinner.stop();
+}
+
+function clearTemp() {
+  if (fse.existsSync(tempDir)) {
+    fse.removeSync(tempDir);
+  }
 }
 
 export default getTemplate;

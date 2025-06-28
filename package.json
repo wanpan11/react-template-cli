@@ -63,7 +63,7 @@
     "inquirer": "^8.2.0",
     "node-stream-zip": "^1.15.0",
     "ora": "^6.1.2",
-    "typescript": "^5.0.2"
+    "typescript": "~5.0.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
